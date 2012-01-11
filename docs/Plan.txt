@@ -1,0 +1,45 @@
+Burp -- Plan
+============
+
+Version 1
+---------
+
+ * Linux only
+ 
+###Daemon
+
+####Features
+
+ * Daemon folder watcher with callback
+ * * inotify on all files and directories
+ * * * files for updates
+ * * * directories for new files
+ * * select() with small timeout
+ * dirtree in ttree
+ * Boehm-Demers-Weiser conservative garbage collector
+
+####Limitations
+ * Single site per daemon
+ 
+###Content
+
+ * Markdown via Discount
+ * Custom tags for images/
+
+###Templates 
+
+ * basil2-a-like (simpler to allow for dependency checking templates)
+ * * re2c
+ * * Lemon
+ * * Modified Basil2 library
+ * * * readers for files
+ 
+ 
+
+### Dependencies
+
+ * [re2c] (http://re2c.org/)
+ * [Lemon] (http://www.hwaci.com/sw/lemon/)
+ * [libgc] (http://www.hpl.hp.com/personal/Hans_Boehm/gc/index.html)
+ * [libcurl] (http://curl.haxx.se/libcurl/)
+ * [Discount] (http://www.pell.portland.or.us/~orc/Code/discount/)

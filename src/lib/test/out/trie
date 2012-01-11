@@ -1,0 +1,290 @@
+13]-- trie --------------------------------
+18](null):(null)
+19](null):(null)
+20]data:data
+21](null):(null)
+23]----------------------------------
+26](null):(null)
+27]data:data
+29]----------------------------------
+32](null):(null)
+33](null):(null)
+34]data:data
+35](null):(null)
+37]----------------------------------
+40](null):(null)
+41](null):(null)
+42](null):(null)
+43](null):(null)
+44](null):(null)
+45](null):(null)
+46](null):(null)
+47](null):(null)
+48](null):(null)
+49]data:data
+50](null):(null)
+52]----------------------------------
+53]insert: try a long filename:
+54]- - - -  - - - - - - - - - - - - -
+56](null):(null)
+57]data:data
+58](null):(null)
+59]----------------------------------
+60]/usr/prog/basil/lib/test/bin/trie:
+/
+  u
+    s
+      r
+        /
+          p
+            r
+              o
+                g
+                  /
+                    b
+                      a
+                        s
+                          i
+                            l
+                              /
+                                l
+                                  i
+                                    b
+                                      /
+                                        t
+                                          e
+                                            s
+                                              t
+                                                /
+                                                  b
+                                                    i
+                                                      n
+                                                        /
+                                                          t
+                                                            r
+                                                              i
+                                                                e-->*
+63]----------------------------------
+65]new trie:sam
+s
+  a
+    m-->*
+67]----------------------------------
+68]insert:sambo
+s
+  a
+    m-->*
+      b
+        o-->*
+71]----------------------------------
+73]insert:dan
+s
+  a
+    m-->*
+      b
+        o-->*
+d
+  a
+    n-->*
+75]----------------------------------
+77]insert:david
+79]insert:samuel
+81]insert:daniel
+83]insert:sambeau
+85]insert:sally
+s
+  a
+    m-->*
+      b
+        o-->*
+        e
+          a
+            u-->*
+      u
+        e
+          l-->*
+    l
+      l
+        y-->*
+d
+  a
+    n-->*
+      i
+        e
+          l-->*
+    v
+      i
+        d-->*
+88]----------------------------------
+89]now retreive them:
+90]- - - -  - - - - - - - - - - - - -
+91]sam:sam
+92]sambo:sambo
+93]samuel:samuel
+94]sambeau:sambeau
+95]sally:sally
+96]david:david
+97]dan:dan
+98]daniel:daniel
+99]danny->(null):(null)
+100]da->(null):(null)
+102]----------------------------------
+103]Add 100 names to a trie:
+206]- - - - - - - - - - - - - - - - -
+207]Now try retreiving some:
+208]- - - - - - - - - - - - - - - - -
+209]Kylie=5516:5516
+210]Jacob=29195:29195
+211]Katherine=7056:7056
+212]Kaitlyn=:74867486
+213]Thomas=10879:10879
+215]- - - - - - - - - - - - - - - - -
+216]And some that aren't there:
+217]- - - - - - - - - - - - - - - - -
+218]Judas=(null):(null)
+219]Adolf=(null):(null)
+220]Cheeseplant=(null):(null)
+221]Bignose=(null):(null)
+222]----------------------------------
+224]----------------------------------
+226]new trie:sam
+228]insert:sambo
+230]insert:samuel
+232]insert:s
+234]insert:dan
+s-->*
+  a
+    m-->*
+      b
+        o-->*
+      u
+        e
+          l-->*
+d
+  a
+    n-->*
+236]- - - - - - - - - - - - - - - - - 
+s-->*
+  a
+    m-->*
+      u
+        e
+          l-->*
+d
+  a
+    n-->*
+239]- - - - - - - - - - - - - - - - - 
+s-->*
+  a
+    m
+      u
+        e
+          l-->*
+d
+  a
+    n-->*
+242]- - - - - - - - - - - - - - - - - 
+s-->*
+  a
+    m
+      u
+        e
+          l-->*
+245]- - - - - - - - - - - - - - - - - 
+s-->*
+248]- - - - - - - - - - - - - - - - - 
+s
+251]- - - - - - - - - - - - - - - - - 
+253]insert:supercalifragilisticexpialidocious
+s
+  u
+    p
+      e
+        r
+          c
+            a
+              l
+                i
+                  f
+                    r
+                      a
+                        g
+                          i
+                            l
+                              i
+                                s
+                                  t
+                                    i
+                                      c
+                                        e
+                                          x
+                                            p
+                                              i
+                                                a
+                                                  l
+                                                    i
+                                                      d
+                                                        o
+                                                          c
+                                                            i
+                                                              o
+                                                                u
+                                                                  s-->*
+255]----------------------------------
+J
+  o
+    h
+      n-->*
+P
+  a
+    u
+      l-->*
+G
+  e
+    o
+      r
+        g
+          e-->*
+R
+  i
+    n
+      g
+        o-->*
+263]- - - - - - - - - - - - - - - - - 
+265]The Beatles:JohnPaulGeorgeRingo
+269]- - - - - - - - - - - - - - - - - 
+J
+  o
+    h
+      n-->*
+P
+  a
+    u
+      l-->*
+G
+  e
+    o
+      r
+        g
+          e-->*
+R
+  i
+    n
+      g
+        o-->*
+B
+  u
+    n
+      g
+        l
+          e-->*
+Z
+  i
+    p
+      p
+        y-->*
+276]- - - - - - - - - - - - - - - - - 
+278]The Beatles plus Rainbow:JohnPaulGeorgeRingoBungleZippy
+282]- - - - - - - - - - - - - - - - - 
+284]The Beatles plus Rainbow Sorted:BungleGeorgeJohnPaulRingoZippy
+288]----------------------------------

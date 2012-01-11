@@ -1,0 +1,180 @@
+Burp
+====
+
+_Websites for normal folk_
+
+
+Introduction
+------------
+
+_Burp_ is a website builder that publishes a website from a directory of text files (and other content such as images). It is designed to be as easy-to-use as possible for both maintainer and designer. It is aimed at typical small-to-medium sized web sites (personal sites, small business sites etc). It also works nicely with Dropbox.
+
+_Features include:_
+
+*	Client-side file editing
+*	Dropbox integration
+*	Automatic publishing
+*	Flexible templates
+*	News
+*	Images & Galleries
+*	Markdown integration
+
+
+What is tricky about websites?
+------------------------------
+
+There are a number of things that are typically difficult about creating and maintaining a website.
+
+*	HTML (the language of web pages) is fiddly and brittle
+*	Accessing files on a web server is difficult
+*	Adding or removing a single page can mean reworking lots of pages to update menus, etc.
+*	Web editing software can be clunky and slow
+*	Web publishing systems can be very complicated
+
+__Burp__ tries to combat each of these problems being small and nimble.
+
+
+###What is Tricky about _Burp?_
+
+_Burp_ does have some stumbling blocks:
+
+*	_Burp_ requires a professional to install it
+*	_Burp_ requires a professional to modify the templates
+*	Markdown, though pervasive on the web these days, has a small learning curve and it cannot be used to make complex pages
+* _Burp_ is not intended for large sites with hundreds of pages
+
+
+Basics
+------
+
+The basic workflow for a _Burp_ site typically goes something like this:
+
+_Jane opens her website folder in her Dropbox. She finds the file she needs to update and opens it in a text editor. She edits the markdown and checks it in a markdown preview app. Happy with the result she opens her browser, goes to her publish page and hits the large publish button_
+
+Site
+----
+
+
+	web-name.site/
+		site.info
+		pages/
+			pages.info
+			home.page.txt
+			home.page.txt.info
+			news.page/
+				news.md
+				stories/
+					this-is-a-story.txt
+					this-is-another-story.txt	
+			services.page/
+				services.mkdown
+				images/
+					service.jpg
+					service.jpg.info
+					people.jpg
+				docs/
+					report.doc
+					report.pdf
+			contact.page/
+				contact.info
+				contact.txt
+			diary.page/
+				diary.info
+				diary.xml
+		templates/
+			page.tmpl
+			news.tmpl/
+				story.tmpl
+			images/
+		
+	
+Class names (like __.page__) are optional on text files (but not directories). Classes can therefore be deduced from the parent directory.
+
+Publishing Modes
+----------------
+
+_Burp_ has three publishing work-flows.
+
+* __Automatic:__ _The website is updated automatically a few seconds after any file is saved. This is the default option._
+* __Manual:__ _Website changes are published only once a publish button is pressed. This may prevent half-finished content appearing on a live site._
+* __Two-stage:__ _Website changes are viewed live on a preview version of the site and synced to the main site only when all changes are complete. This is the preferred option for most professional sites._
+
+###Automatic
+
+Automatic publishing is simple and provides immediate feedback. Every time a file is saved it is synced across to the web site which republishes the appropriate page (or pages) automatically.
+
+Automatic publishing of a _Burp_ site requires access to __cron__.
+
+###Manual
+
+Manual publishing holds off any republishing of the website until the maintainer chooses to hit the publish button. 
+
+Manual publishing of a _Burp_ site requires the installation of a __cgi__.
+
+###Two-stage
+
+Two-stage publishing of a _Burp_ site requires an extra __web domain__, access to __cron__ and the installation of a __cgi__.
+
+
+Info Files
+----------
+
+Any file can have an associated _.info_ file. _.info_ files are required to attach  metadata to image, document and media files.
+
+
+Filetypes
+---------
+
+_Burp_ usually tries to guess a file's contents by examining it's file ending. Hints and overrides can be expressed in the _header_ or _.info_ file.
+
+_Burp_ will recognise the following file types:
+
+###Text
+
+Text files can be:
+
+*	text: _.txt, .text_
+*	html: _.html, .htm_
+*	markdown: _.md, .markdown_
+
+Text files typically have a simple header at the top that contains definitions needed to parse the file correctly. This information can be contained in a separate __.info__ file.
+
+###Images
+
+Standard web image types are recognised: 
+
+*	jpeg: _.jpg, .jpeg_
+*	png: _.png_ 
+*	gif: _.gif_
+
+It is recommended that jpegs are used for most web content.
+
+###Documents & Media
+
+_Burp_ will try to recognise and display:
+
+*	PDF Files
+*	Word Documents
+*	MP3 Files
+*	:
+
+
+Logging
+-------
+
+_Burp_ publishes a log of changes that can be viewed as part of the website. If it can it will provide a name beside each change.
+
+Yr
+---
+
+_usage:_
+
+	Yr directory file
+	
+_Yr_ reads the timestamp of a file and then compares it against the timestamps of every file in the directory. If any file in the directory is younger than the named file Yr returns with exit code zero otherwise Yr exits with a nonzero exit code.
+
+
+Scope
+-----
+
+Dictionary scope in each file runs in two directions: template and parent.

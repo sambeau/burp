@@ -1,0 +1,10 @@
+make an automatic script that 
+
+ * picks an abritrary number for a setting eg 1
+ * compiles
+ * does a number of timed runs to get an average 
+ * it then doubles the number and does it again
+   * if it's faster it repeats the process
+   * if it's slower it tries again at half the difference
+
+eg a binary search on a setting to find the fastest setting

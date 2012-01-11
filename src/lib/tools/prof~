@@ -1,0 +1,121 @@
+#!/usr/bin/perl
+#
+#   prof
+# 
+#   simple profiler for trace.c
+# 
+#   Created by sambeau on Thu Feb 26 2004.
+#   Copyleft (L) 2003 Sam Phillips. Most rights returned.
+# 
+#  ----------------------------------------------------------------------
+#  
+#  Copyright (C) 2003  Sam Phillips <sambeau@sambeau.com>
+#  
+#  This program is free software; you can redistribute it and/or modify it
+#  under the terms of The Artistic License a copy of which should have been
+#  distributed with this file.
+#  
+#  You may make and give away verbatim copies of the source form of the
+#  Standard Version of this Package without restriction, provided that you
+#  duplicate all of the original copyright notices and associated
+#  disclaimers.
+#  
+#  THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
+#  MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+#   
+#  ----------------------------------------------------------------------
+# 
+
+use strict;
+
+
+open LOGFILE, "trace.log";
+
+my %functions = ();
+
+my $tot_time = 0;
+my $tot_calls = 0;
+my $tot_period = 0;
+
+
+while (<LOGFILE>) {
+
+   my ($file,$function,$ttime,$rtime) = split /[\t ]+/,$_;
+   
+   if(!$functions{$function}{function}) {
+      # inititalise
+      $functions{$function}{function} = $function;
+      $functions{$function}{file} = $file;
+      $functions{$function}{freq} = 0;
+      $functions{$function}{ttime} = 0;
+      $functions{$function}{rtime} = 0;
+   }
+   
+   $functions{$function}{freq}  += 1;
+   $functions{$function}{ttime} += $ttime;
+   $functions{$function}{rtime} += $rtime;
+   $tot_time += $rtime;
+   $tot_period += $ttime;   
+   $tot_calls += 1;
+
+}
+
+sub by_freq {
+   $functions{$b}{freq} <=> $functions{$a}{freq};
+}
+
+sub by_time {
+   $functions{$b}{rtime} <=> $functions{$a}{rtime};
+}
+
+sub by_ttime {
+   $functions{$b}{ttime} <=> $functions{$a}{ttime};
+}
+
+sub by_function {
+   $functions{$b}{function} cmp $functions{$a}{function};
+}
+
+sub by_filefunction {
+      $functions{$a}{file} cmp $functions{$b}{file}
+   or
+      $functions{$a}{function} cmp $functions{$b}{function};
+}
+
+my $nn=0;
+
+print "\nPROFILE\n-------";
+
+for my $table (
+   [\&by_freq,"FREQUENCY","How many times the function is called."], 
+   [\&by_time,"QUANTUM","The amount of time a function uses without calling other timed functions."], 
+   [\&by_ttime,"PERIOD","The period of time spent within a function and the functions it calls."], 
+   [\&by_function,"FUNCTION","Function name."], 
+   [\&by_filefunction,"FILE/FUNCTION","File name and function name."]
+) {
+   
+   if($nn) { print "-" x 111 , "\n"; } $nn++;
+   
+   my ($t,$title,$descr) = @$table;
+
+   print "\n".$title."\n".$descr."\n";
+
+   printf "\nfile/function\t\t\t\t%7s\t\t%7s\t%8s\t\t%7s\t%8s\n\n",'n','quantum',"%",'period',"%";
+   
+   for my $f (sort $t (keys %functions) ) {
+   
+      printf  "%33s",$functions{$f}{file} . "/" . $f; 
+      printf "\t%7ld", $functions{$f}{freq}; 
+      printf "\t\t%7ld", $functions{$f}{rtime}; 
+      printf "\t%8.1lf", ($functions{$f}{rtime}/$tot_time)*100; 
+      printf "\t\t%7ld", $functions{$f}{ttime};
+      printf "\t%8.1lf", ($functions{$f}{ttime}/$tot_period)*100;
+      print "\n";
+      
+   }
+   
+   printf "\nTotal\t\t\t\t\t%7ld\t\t%7ld\n\n", $tot_calls, $tot_time;
+   
+}
+close LOGFILE;

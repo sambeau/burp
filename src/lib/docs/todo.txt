@@ -1,0 +1,32 @@
+-- TODO --
+
+[x] Implement string_compare_ignorecase for non GNU systems (ie OS X)
+    -- copied source code from glibc ;-)
+    
+[x] fix list_length as it is nonsense!
+
+[x] rename class as type?
+
+[-] make node versions of each class?
+
+[-] add asserts eg assert(xs->class == LIST) etc
+
+[X] finish variable arg str_cats
+
+[X] make variable arg list_concat -- this will be needed by parser? will it?
+
+[ ] move tests into each unit file
+
+[X] fix the makefile
+
+[x] prefix a namespace to all function names? eg baz_ or bz_
+ 
+-- repeatedly do --
+
+
+Audit for checking mallocs return NULL -- is this a waste of time?
+Audit for other needed BARFs
+Audit for asserts()
+Audit for BEGIN and END
+Audit for const
+Audit for static functions

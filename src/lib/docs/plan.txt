@@ -1,0 +1,69 @@
+Gradually move GCLIB functions into here as needed..
+
+with:
+
+ * Test Harness & test each module as it is added
+
+ * Removable Barf, Trace etc
+
+ * Garbage Collection
+
+ * Speed Audit (eg string_cat7)
+
+ * Security Audit (and tests to test it) - 
+
+ * Use assert()
+
+ * General Cleanup
+
+ * Cache files wherever possible
+
+ * Comment OUT all functions by default - add them in with a USE macro. This will keep binaries minimal.
+
+ * Use a more robust and faster (to copy) string? eg elastic style (with fast concat / multi-fast-concat)
+
+==================================================
+
+SECURITY CONCERNS:
+------------------
+Be paranoid:
+
+    * checking assertions, to detect un-respected constraints
+    * checking array indexing whenever possible.
+    * embedding magic numbers within objects, to check their type quickly.
+    * checking the result of any system call or library function.
+
+and 
+
+Make parameters quantities that can be checked for validity, and check them.
+Check for references to outdated data structures.
+Assume "debugged code" isn't. When it's moved to other environments, previously unknown bugs may appear.
+Keep parameter lists consistent.
+Avoid changing variables through a parameter list; whenever possible, avoid passing pointers.
+Check for array overflow and report an error when it would occur (or take other corrective action).
+Check for failure in C library functions and system calls.
+Check for failure in other library functions in your library.
+Initialize on creation.
+Check that the parameter refers to a valid data structure.
+Always clean up deleted information - it prevents errors later on.
+Allow error messages to contain numbers or other variable data.
+
+and 
+
+* Look for usage of malloc, strdup(!) and friends: verify that what they return is always checked for NULL! Yes, it is always possible that even strdup()ing a string fails because of memory shortage
+* Verify that when strncpy is used, that the destination string is terminated with 0x00! => strncpy will not do that for you! (unless the source-string contains a 0x00 within the number of bytes that are copied)
+* read/write can come back with less bytes read/written then requested which is then not always an error-situation
+* read/write/recv/recvfrom/sendto can come with -1 and errno set to EINTR, in that case the command should be executed again. EINTR is returned when a signal came in just before reading/writing/etc. However: I heard a rumour that on Linux especially with file- access, the EINTR cannot occure. But if the application you're auditing is also for other UNIX platforms, be sure to check for all of this 
+
+
+
+and see http://www.vanheusden.com/Linux/audit.html
+
+GREP FOR THIS STUFF!:
+
+Functions to avoid in most cases (or ensure protection) include the functions strcpy(3), strcat(3), sprintf(3) (with cousin vsprintf(3)), and gets(3). These should be replaced with functions such as strncpy(3), strncat(3), snprintf(3), and fgets(3) respectively, but see the discussion below. The function strlen(3) should be avoided unless you can ensure that there will be a terminating NIL character to find. The scanf() family (scanf(3), fscanf(3), sscanf(3), vscanf(3), vsscanf(3), and vfscanf(3)) is often dangerous to use; do not use it to send data to a string without controlling the maximum length (the format %s is a particularly common problem). Other dangerous functions that may permit buffer overruns (depending on their use) include realpath(3), getopt(3), getpass(3), streadd(3), strecpy(3), and strtrns(3). You must be careful with getwd(3); the buffer sent to getwd(3) must be at least PATH_MAX bytes long. The select(2) helper macros FD_SET(), FD_CLR(), and FD_ISSET() do not check that the index fd is within bounds; make sure that fd >= 0 and fd <= FD_SETSIZE (this particular one has been exploited in pppd).
+
+    *  strncpy(), strncat(), snprintf() - only snprintf() of these is easy to use safely (except it's return value) but it's still somewhat unportable (Windows). strncpy() doesn't necessarily NUL-terminate requiring it to be done explicitly. strncat() was probably never meant to be a way to prevent buffer overflows, it's behaviour is just too insane for that, for example: strncat(buf, "foo", sizeof(buf)-strlen(buf)-1); Then again there's people who are happily using strncat() by giving the full buffer size to it's 3rd argument. While that would sound logical, it's completely wrong.
+    * strlcpy(), strlcat() - much better replacements to above by OpenBSD. Very unportable, but you can easily create your own ones. But these can still be used unsafely if the buffer size parameter is wrong or if the programmer goes playing around with the buffer indirectly, by eg. appending single characters and missing size checks (yes, I've seen this in software that contained "secure" in it's name).
+    * Dynamically allocating the amount of wanted memory and then using strcpy(), strcat(), sprintf() and direct accessing. This requires you to be very careful with the string size calculations. I don't understand why so many people think that's not a problem, they have this "If you can't calculate the sizes correctly, you're stupid and you shouldn't be coding at all" attitude. Why bother wasting time with that at all when you could be doing more important things?
+    * Dynamically growing buffers, used by for example GLIB, vsftpd, qmail, djbdns and Postfix. This is definitely the right way; string manipulation is done through API which discourages - or even disallows - direct buffer manipulation.

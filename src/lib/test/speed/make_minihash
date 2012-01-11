@@ -1,0 +1,8 @@
+cd ../..
+make
+cd test/speed
+cc -o minihash src/minihash.c ../../objects/*.o -lm -lgc -O3 -DUSE_GARBAGE_COLLECTOR -D_GNU_SOURCE -DTEST
+time ./minihash
+time ./minihash
+time ./minihash
+
