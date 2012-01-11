@@ -162,7 +162,7 @@ CHAR* bz_real_to_wstr(bz_Real* r)
 bz_Integer* bz_string_to_integer(bz_String* s)
 {
   /*
-   * see: http://www.gnu.org/software/libc/manual/html_node/Parsing-of-bz_Integers.html
+   * see: http://www.gnu.org/software/libc/manual/html_node/Parsing-of-Integers.html
    */
   BEGIN;
   CHAR *error;
@@ -250,42 +250,42 @@ bz_List* bz_empty_to_list(bz_Empty* e)
 
 CHAR* cstr_to_wstr(char *cstr)
 {
-  CHAR *wstr;  
-  size_t cslength;
+	CHAR *wstr;  
+	size_t wstrlength;
+	
+	BEGIN;
+	
+	wstrlength = mbstowcs(NULL,cstr,0);	// run through once to find buffer size	
+	wstr = malloc(sizeof(CHAR)*(wstrlength + 1));
+	
+	wstrlength = mbstowcs(wstr, cstr, wstrlength);
+	if (wstrlength < 0)
+		BARF("Unreadable UTF-8 string");
 
-  BEGIN;
-
-  cslength = strlen(cstr);
-
-  wstr = malloc(sizeof(CHAR)*(cslength + 256));
-
-  int i;
-  for(i=0;i<cslength;i++) {
-    wstr[i] = btowc(cstr[i]);
-  }
-
-  wstr[i] = L'\0';
-
-  RETURN( wstr );
+	wstr[wstrlength]=L'\0';
+	
+	RETURN( wstr );
 }
 
 char* wstr_to_cstr(CHAR* wstr)
 {
   char *cstr;
-  size_t wslength;
+  size_t cstrlength;
 
   BEGIN;
-  wslength = wcslen(wstr);
 
-  cstr = malloc(sizeof(char)*(wslength+1));
+ 	
+ 	cstrlength = wcstombs(NULL,wstr,0);	// run through once to find buffer size
+	cstr = malloc(sizeof(char)*(cstrlength + 1));
 
-  int i;
-  for(i=0;i<wslength;i++) {
-    cstr[i] = wctob(wstr[i]);
-  }
-  cstr[i] = '\0';
+	cstrlength = wcstombs(cstr, wstr, cstrlength);
+	if (cstrlength < 0){
+		printf("oops!");
+		BARF("Unreadable string");
+	}
+	cstr[cstrlength]='\0';
 
-  RETURN( cstr );
+  	RETURN( cstr );
 }
 
 /* - - list - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */

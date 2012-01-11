@@ -37,6 +37,7 @@
  *
  */
 #include <assert.h>
+#include <stdlib.h>
 
 #include "barf.h"
 
@@ -66,10 +67,10 @@
 #define RETURN(x)          {bz_TIF;bz_BIF;return (x);}
 #define RETURN_VOID        {bz_TIF;bz_BIF;return;}
 
-#define _(x)               {fprintf(stderr,"[%s]",#x);fflush(stderr);}
-#define _i(x)              {fprintf(stderr,"[%i]",x);fflush(stderr);}
-#define _s(x)              {fprintf(stderr,"[%s]",x);fflush(stderr);}
-//#define _L(x)            {wfprintf(stderr,L"[%ls]",x);fflush(stderr);}
+#define _(x)               {fwprintf(stderr,L"[%s]",(#x));fflush(stderr);}
+#define _i(x)              {fwprintf(stderr,L"[%i]",(x));fflush(stderr);}
+#define _s(x)              {fwprintf(stderr,L"[%s]",(x));fflush(stderr);}
+#define _ws(x)             {fwprintf(stderr,L"[%ls]",(x));fflush(stderr);}
 
 #else
 
@@ -86,6 +87,9 @@
 #define RETURN_VOID     return
 			
 #define _(x)
+#define _i(x)
+#define _s(x)
+#define _ws(x)
 
 #endif /* DEBUG */
 

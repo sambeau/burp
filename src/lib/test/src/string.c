@@ -1,3 +1,5 @@
+#include <locale.h>
+
 #include "../../src/string.h"
 #include "../../src/debug.h"
 #include "../../src/cast.h"
@@ -12,7 +14,9 @@ int main(int argc, char** argv)
 	
 	DEBUG_INIT(argv[0]);
 	BEGIN;
-
+	
+	setlocale(LC_CTYPE, "en_US.UTF-8");
+	
 	e = bz_string_new(NULL);
 	PRINT(L"0:%d\n", e->length);
 	for(i=0;i<1000;i++)
@@ -102,8 +106,28 @@ int main(int argc, char** argv)
 	PRINT(L"<0:%i\n",bz_string_compare_ignorecase( str(L"\t\t1"), str(L"\t\t2") ));
 	PRINT(L" 0:%i\n",bz_string_compare_ignorecase( str(L"   "), str(L"     ") ));
 
-	PRINT(L"hello:%ls",cstr_to_wstr("hello\n"));
-	PRINT(L"hello:");wprintf(L"%s",wstr_to_cstr(L"hello\n"));
+	PRINT(L"--unicode--------------------------------\n");		
+
+	PRINT(L"%s\n","hello");
+	PRINT(L"%s\n","Schöne Grüße");
+	PRINT(L"%s\n","♠♣♥♦");
+	PRINT(L"%s\n","Hello world, Καλημέρα κόσμε, コンニチハ, 世界");
+
+	PRINT(L"--UTF-8 to wchar--------------------------------\n");		
+
+	PRINT(L"hello:%ls\n",cstr_to_wstr("hello"));
+	PRINT(L"Schöne Grüße:%ls\n",cstr_to_wstr("Schöne Grüße"));
+	PRINT(L"♠♣♥♦:%ls\n",cstr_to_wstr("♠♣♥♦"));
+	PRINT(L"Hello world, Καλημέρα κόσμε, コンニチハ, 世界:%ls\n",
+		cstr_to_wstr("Hello world, Καλημέρα κόσμε, コンニチハ, 世界"));
+
+	PRINT(L"--wchar to UTF-8--------------------------------\n");		
+
+	PRINT(L"hello:");PRINT(L"%s\n",wstr_to_cstr(L"hello"));
+	PRINT(L"Schöne Grüße:");PRINT(L"%s\n",wstr_to_cstr(L"Schöne Grüße"));
+	PRINT(L"♠♣♥♦:");PRINT(L"%s\n",wstr_to_cstr(L"♠♣♥♦"));
+	PRINT(L"Hello world, Καλημέρα κόσμε, コンニチハ, 世界:");
+		PRINT(L"%s\n",wstr_to_cstr(L"Hello world, Καλημέρα κόσμε, コンニチハ, 世界"));
 
 	PRINT(L"--string cat wchar--------------------------------\n");		
 	{
