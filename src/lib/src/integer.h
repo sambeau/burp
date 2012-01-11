@@ -40,11 +40,11 @@
 /*
  * We should maybe choose a more specific integer value?
  *
- * see http://www.gnu.org/software/libc/manual/html_node/bz_Integers.html#bz_Integers
+ * see http://www.gnu.org/software/libc/manual/html_node/Integers.html#bIntegers
  */
 
-#define INTV  long
-#define INTF  L"%ld"
+#define INTV  long long
+#define INTF  L"%lld"
 
 typedef struct {
   const bz_Type* type;
@@ -69,7 +69,7 @@ void      bz_integer_show(bz_Integer* I);
 
 #define int(x) bz_integer_new(x)
 
-#define bz_INTEGER_CHARbz_SIZE(I)\
+#define bz_INTEGER_CHAR_SIZE(I)\
  (\
    (I->value == 0) ?\
       1\

@@ -80,7 +80,7 @@ bz_SIZE bz_integer_length(bz_Integer* I)
 
 bz_SIZE bz_integer_charsize(bz_Integer* I) 
 {
-  return bz_INTEGER_CHARbz_SIZE(I);
+  return bz_INTEGER_CHAR_SIZE(I);
 }
 
 

@@ -92,7 +92,7 @@ CHAR* bz_integer_to_wstr(bz_Integer* I)
 {
   BEGIN;
   INTV v = I->value;
-  INTV n = bz_INTEGER_CHARbz_SIZE(I) + 1; /* +1 for the NULL char */
+  INTV n = bz_INTEGER_CHAR_SIZE(I) + 1; /* +1 for the NULL char */
 
 
   CHAR* s = malloc(sizeof(CHAR) * n);
