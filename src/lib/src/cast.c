@@ -273,14 +273,12 @@ char* wstr_to_cstr(CHAR* wstr)
   size_t cstrlength;
 
   BEGIN;
-
  	
  	cstrlength = wcstombs(NULL,wstr,0);	// run through once to find buffer size
 	cstr = malloc(sizeof(char)*(cstrlength + 1));
 
 	cstrlength = wcstombs(cstr, wstr, cstrlength);
 	if (cstrlength < 0){
-		printf("oops!");
 		BARF("Unreadable string");
 	}
 	cstr[cstrlength]='\0';

@@ -115,6 +115,7 @@ int main(int argc, char** argv)
 
 	PRINT(L"--UTF-8 to wchar--------------------------------\n");		
 
+	PRINT(L"():(%ls)\n",cstr_to_wstr(""));
 	PRINT(L"hello:%ls\n",cstr_to_wstr("hello"));
 	PRINT(L"Schöne Grüße:%ls\n",cstr_to_wstr("Schöne Grüße"));
 	PRINT(L"♠♣♥♦:%ls\n",cstr_to_wstr("♠♣♥♦"));
@@ -123,11 +124,12 @@ int main(int argc, char** argv)
 
 	PRINT(L"--wchar to UTF-8--------------------------------\n");		
 
-	PRINT(L"hello:");PRINT(L"%s\n",wstr_to_cstr(L"hello"));
-	PRINT(L"Schöne Grüße:");PRINT(L"%s\n",wstr_to_cstr(L"Schöne Grüße"));
-	PRINT(L"♠♣♥♦:");PRINT(L"%s\n",wstr_to_cstr(L"♠♣♥♦"));
+	PRINT(L"():");wprintf(L"(%s)\n",wstr_to_cstr(L""));
+	PRINT(L"hello:");wprintf(L"%s\n",wstr_to_cstr(L"hello"));
+	PRINT(L"Schöne Grüße:");wprintf(L"%s\n",wstr_to_cstr(L"Schöne Grüße"));
+	PRINT(L"♠♣♥♦:");wprintf(L"%s\n",wstr_to_cstr(L"♠♣♥♦"));
 	PRINT(L"Hello world, Καλημέρα κόσμε, コンニチハ, 世界:");
-		PRINT(L"%s\n",wstr_to_cstr(L"Hello world, Καλημέρα κόσμε, コンニチハ, 世界"));
+		wprintf(L"%s\n",wstr_to_cstr(L"Hello world, Καλημέρα κόσμε, コンニチハ, 世界"));
 
 	PRINT(L"--string cat wchar--------------------------------\n");		
 	{
